@@ -21,15 +21,49 @@ app.use(express.json());
 // Static directory
 app.use(express.static("public"));
 
+// Set Handlebars.
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 // Routes
 // =============================================================
-require("./routes/html-routes.js")(app);
-require("./routes/author-api-routes.js")(app);
-require("./routes/post-api-routes.js")(app);
+require("./controller/api-routes.js")(app);
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync({ force: true }).then(function() {
+  db.Burger.create({
+    burger_name: 'Cheeseburger',
+    devoured: false
+  }).then(function (results) {
+    console.log(results);
+  });
+  db.Burger.create({
+    burger_name: 'Hamburger',
+    devoured: false
+  }).then(function (results) {
+    console.log(results);
+  });
+  db.Burger.create({
+    burger_name: 'Double Double',
+    devoured: false
+  }).then(function (results) {
+    console.log(results);
+  });
+  db.Burger.create({
+    burger_name: 'Protein Style',
+    devoured: true
+  }).then(function (results) {
+    console.log(results);
+  });
+  db.Burger.create({
+    burger_name: 'Charburger',
+    devoured: true
+  }).then(function (results) {
+    console.log(results);
+  });
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
